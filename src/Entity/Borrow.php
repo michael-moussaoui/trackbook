@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\BorrowRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BorrowRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BorrowRepository::class)]
 class Borrow
@@ -11,12 +12,15 @@ class Borrow
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("borrow:read")]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups("borrow:read")]
     private ?\DateTimeImmutable $borrowAt = null;
 
     #[ORM\Column]
+    #[Groups("borrow:read")]
     private ?\DateTimeImmutable $borrowReturnAt = null;
 
     public function getId(): ?int

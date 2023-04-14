@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -20,15 +21,16 @@ class BookController extends AbstractController
 {
     //Récupère tous les livres
     #[Route('/api/v1/books', name: 'app_books', methods:['GET'])]
-    public function getAllBooks(BookRepository $booksRepository, SerializerInterface $serializer ): Response
+    public function getAllBooks(BookRepository $bookRepository, SerializerInterface $serializer ): Response
     {
-        $books = $booksRepository->findAll();
-        $json = $serializer->serialize($books,'json', ['groups'=>'book:read']);
-        $response = new response($json, 200, [
-            "content-type" => "application/json"
-        ] );
+        // $books = $booksRepository->findAll();
+        // $json = $serializer->serialize($books,'json', ['groups'=>'book:read']);
+        // $response = new response($json, 200, [
+        //     "content-type" => "application/json"
+        // ] );
         
-        return $response;
+        // return $response;
+        return $this->json($bookRepository->findAll(), 200, [], ['groups' => 'book:read']);
         
     }
 

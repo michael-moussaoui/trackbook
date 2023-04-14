@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\BoxBookRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BoxBookRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BoxBookRepository::class)]
 class BoxBook
@@ -12,18 +13,23 @@ class BoxBook
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("box:read")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("box:read")]
     private ?string $sreet = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("box:read")]
     private ?string $city = null;
 
     #[ORM\Column(type: Types::ARRAY)]
+    #[Groups("box:read")]
     private array $geoloc = [];
 
     #[ORM\Column]
+    #[Groups("box:read")]
     private ?int $zipcode = null;
 
     public function getId(): ?int

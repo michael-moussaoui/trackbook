@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BookRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -11,20 +12,26 @@ class Book
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("book:read")]
     private ?int $id = null;
 
+    #[Groups("book:read")]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Groups("book:read")]
     #[ORM\Column(length: 255)]
     private ?string $author = null;
 
+    #[Groups("book:read")]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cover = null;
 
+    #[Groups("book:read")]
     #[ORM\Column]
     private ?bool $isAvailable = null;
 
+    #[Groups("book:read")]
     #[ORM\Column(length: 255)]
     private ?string $isbn = null;
 
