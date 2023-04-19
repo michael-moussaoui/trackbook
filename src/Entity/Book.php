@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Category;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BookRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -37,6 +38,8 @@ class Book
 
     #[ORM\ManyToOne(inversedBy: 'category')]
     private ?Category $category = null;
+
+   
 
     public function getId(): ?int
     {
