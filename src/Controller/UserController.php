@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Endroid\QrCode\QrCode;
 
 class UserController extends AbstractController
 {
@@ -50,16 +51,26 @@ class UserController extends AbstractController
 
     {
         $usersRepository = $entityManager->getRepository(User::class);
+        dd($usersRepository);
         $users = $usersRepository->findBy(['uuid' => $uuid]);
         $json = $serializer->serialize($users,'json', ['groups'=>'user:read']);
 
-        $response = new Response($json, 200, [
-            "Content-Type" =>"application/json"
-        ]);
-       
-        
-        return $response;
+
+    // Crée un QR Code pour chaque utilisateur
+    $qrCode = new QrCode($uuid);
+    $qrCode->setSize(250);
+
+    $response = new Response($json, 200, [
+        "Content-Type" =>"application/json"
+    ]);
+   
+    // Ajoute le contenu du QR Code à la réponse
+    $response->setContent($qrCode->writeString());
+
+    return $response;
     }
+
+    
     
     //Supprimer un utilisateur
     #[Route('/api/v1/user/{id}', name: 'app_user_delete', methods:['DELETE'])]
